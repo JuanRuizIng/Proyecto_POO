@@ -37,10 +37,9 @@ public class FichaMedica {
 
     @Override
     public String toString() {
-        return "Modelo.FichaMedica{" +
-                "tipoSangre='" + tipoSangre + '\'' +
-                ", pesoKg=" + pesoKg +
-                ", frecuenciaCardiaca=" + frecuenciaCardiaca +
-                '}';
+        return "Ficha Médica:\n" +
+                "  Tipo de Sangre: " + tipoSangre + "\n" +
+                "  Peso (en kg): " + pesoKg + "\n" +
+                "  Frecuencia Cardiaca: " + frecuenciaCardiaca + "\n";
     }
 }

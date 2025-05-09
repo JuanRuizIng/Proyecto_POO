@@ -37,12 +37,11 @@ public abstract class Paciente {
 
     @Override
     public String toString() {
-        return "Modelo.Paciente{" +
-                "id=" + identificacion +
-                ", nombre='" + nombre + '\'' +
-                ", suFichaMedica=" + suFichaMedica +
-                ", susServicios=" + susServicios +
-                '}';
+        return "Paciente\n" +
+                "  ID: " + identificacion + "\n" +
+                "  Nombre: " + nombre + "\n" +
+                "  Ficha Medica: " + suFichaMedica.toString() + "\n" +
+                "  Sus Servicios de Salud Registrados: " + susServicios.toString() + "\n";
     }
 
     public final String adicionarServicio(ServicioSalud nvoServicioS) {

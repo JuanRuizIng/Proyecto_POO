@@ -20,14 +20,14 @@ public class PacienteAfiliado extends Paciente {
 
     @Override
     public String toString() {
-        return "Modelo.PacienteAfiliado{" +
-                "numAfiliados=" + numAfiliados +
-                ", id=" + identificacion +
-                ", nombre='" + nombre + '\'' +
-                ", suFichaMedica=" + suFichaMedica +
-                ", susServicios=" + susServicios +
-                '}';
+        return "Paciente Afiliado\n" +
+                "  ID: " + identificacion + "\n" +
+                "  Nombre: " + nombre + "\n" +
+                "  Número de Afiliados: " + numAfiliados + "\n" +
+                suFichaMedica.toString() +
+                "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
     }
+
 
     public double calcularPorcentajeSalud() {
         double porcentajeReduccionPorServicio;

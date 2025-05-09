@@ -4,17 +4,21 @@
  */
 package Vista;
 
-import Modelo.FichaMedica;
-import Modelo.Paciente;
-import Modelo.PacienteAfiliado;
+import Modelo.*;
 
 import javax.swing.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
  * @author LENOVO
  */
 public class UsaPaciente extends javax.swing.JFrame {
+
+    private ProcesaPacienteImpl procesador = new ProcesaPacienteImpl();
+
+    ArrayList<Paciente> losPacientes = new ArrayList<>();
 
     /**
      * Creates new form UsaPaciente
@@ -394,57 +398,128 @@ public class UsaPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_salirActionPerformed
 
     private void ingresarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarPacienteActionPerformed
-        String nombre = jTextField2.getText();
-        String tipoSangre = (String) jComboBox2.getSelectedItem();
-        int identificacion = 0;
-        double pesoKg = 0.0;
-        int frecuenciaCardiaca = 0;
+        String elNombre = jTextField2.getText();
+        String suTipoSangre = (String) jComboBox2.getSelectedItem();
+
+        int suIdentificacion = 0;
+        double suPesoKg = 0.0;
+        int suFrecuenciaCardiaca = 0;
+        int suNumAfiliados = 0;
+        int laEdad = 0;
 
         try {
-            identificacion = Integer.parseInt(jTextField1.getText());
+            suIdentificacion = Integer.parseInt(jTextField1.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
             return;
         }
 
         try {
-            pesoKg = Double.parseDouble(jTextField3.getText());
+            suPesoKg = Double.parseDouble(jTextField3.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: El peso no es un número real. Intente de nuevo");
         }
 
         try {
-            frecuenciaCardiaca = Integer.parseInt(jTextField6.getText());
+            suFrecuenciaCardiaca = Integer.parseInt(jTextField6.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: La frecuencia cardiaca no es un número entero. Intente de nuevo");
         }
 
+        FichaMedica suFicha = new FichaMedica(suTipoSangre, suPesoKg, suFrecuenciaCardiaca);
+
         if (jComboBox1.getSelectedItem().equals("AFILIADO")) {
-            jTextField12.setEnabled(false);
             try {
-                int numAfiliados = Integer.parseInt(jTextField11.getText());
+                suNumAfiliados = Integer.parseInt(jTextField11.getText());
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Error: El número de afiliados no es un número entero. Intente de nuevo");
             }
+            PacienteAfiliado nuevoPacienteAfiliado = new PacienteAfiliado(suIdentificacion, elNombre, suFicha, new ArrayList<>(), suNumAfiliados);
+            losPacientes.add(nuevoPacienteAfiliado);
+            JOptionPane.showMessageDialog(null, "Paciente Afiliado registrado con éxito");
+
         } else {
-            jTextField11.setEnabled(false);
             try {
-                int edad = Integer.parseInt(jTextField12.getText());
+                laEdad = Integer.parseInt(jTextField12.getText());
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Error: La edad no es un número entero. Intente de nuevo");
             }
+            PacienteBeneficiario nuevoPacienteBeneficiario = new PacienteBeneficiario(suIdentificacion, elNombre, suFicha, new ArrayList<>(), laEdad);
+            losPacientes.add(nuevoPacienteBeneficiario);
+            JOptionPane.showMessageDialog(null, "Paciente Beneficiario registrado con éxito");
         }
 
 
     }//GEN-LAST:event_ingresarPacienteActionPerformed
 
     private void ingresarServicioSaludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarServicioSaludActionPerformed
-        // TODO add your handling code here:
+        String elTipoServicio = (String) jComboBox3.getSelectedItem();
+        LocalDate laFecha = LocalDate.now();
+        int laDuracion = 0;
+
+        try {
+            laDuracion = Integer.parseInt(jTextField7.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: La duración no es un número entero. Intente de nuevo");
+        }
+
+        try {
+            laFecha = LocalDate.parse(jTextField10.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error: La fecha no es válida. " +
+                    "Recuerde que el formato de fecha permitido es: YYYY-MM-DD. Intente de nuevo");
+        }
+
+        try {
+            int idBuscado = Integer.parseInt(jTextField9.getText());
+            boolean encontrado = false;
+            for (Paciente paciente : losPacientes) {
+                if (paciente.getIdentificacion() == idBuscado) {
+                    paciente.adicionarServicio(new ServicioSalud(elTipoServicio, laFecha, laDuracion));
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (encontrado == false) {
+                JOptionPane.showMessageDialog(null, "Paciente no encontrado. Intente de nuevo");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
+        }
     }//GEN-LAST:event_ingresarServicioSaludActionPerformed
 
     private void ejecutarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarReporteActionPerformed
-        // TODO add your handling code here:
+        String elTipoReporte = (String) jComboBox4.getSelectedItem();
+        jTextArea1.setText("");
+        if (elTipoReporte.equals("Listado de los pacientes registrados")) {
+            OrdenarPacientePorId(losPacientes);
+            jTextArea1.setText(listarTodosPacientes(losPacientes));
+        } else {
+            try {
+                int idBuscado = Integer.parseInt(jTextField4.getText());
+                String afiliado = listarUnAfiliado(losPacientes, idBuscado);
+                if (afiliado.equals("Paciente no encontrado.")) {
+                    JOptionPane.showMessageDialog(null, "Paciente no encontrado. Intente de nuevo");
+                } else {
+                    jTextArea1.setText(afiliado);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
+            }
+        }
     }//GEN-LAST:event_ejecutarReporteActionPerformed
+
+    public void OrdenarPacientePorId(ArrayList<Paciente> pacientes) {
+        procesador.ordenarPorId(pacientes);
+    }
+
+    public String listarTodosPacientes(ArrayList<Paciente> pacientes) {
+        return procesador.listarPacientes(pacientes);
+    }
+
+    public String listarUnAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
+        return procesador.listarAfiliado(pacientes, identificacionDada);
+    }
 
     /**
      * @param args the command line arguments

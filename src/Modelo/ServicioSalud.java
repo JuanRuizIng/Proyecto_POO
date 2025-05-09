@@ -39,11 +39,10 @@ public class ServicioSalud {
 
     @Override
     public String toString() {
-        return "Modelo.ServicioSalud{" +
-                "tipoServicio='" + tipoServicio + '\'' +
-                ", fecha=" + fecha +
-                ", duracionMinutos=" + duracionMinutos +
-                '}';
+        return "Servicio de Salud:\n" +
+                "  Tipo de Servicio: " + tipoServicio + "\n" +
+                "  Fecha: " + fecha + "\n" +
+                "  Duración (en minutos): " + duracionMinutos + "\n";
     }
 
     public String calcularAnticipacion() {

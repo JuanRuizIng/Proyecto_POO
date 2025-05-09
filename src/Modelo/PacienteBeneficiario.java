@@ -19,13 +19,12 @@ public class PacienteBeneficiario extends Paciente {
 
     @Override
     public String toString() {
-        return "Modelo.PacienteBeneficiario{" +
-                "edad=" + edad +
-                ", id=" + identificacion +
-                ", nombre='" + nombre + '\'' +
-                ", suFichaMedica=" + suFichaMedica +
-                ", susServicios=" + susServicios +
-                '}';
+        return "Paciente Beneficiario\n" +
+                "  ID: " + identificacion + "\n" +
+                "  Nombre: " + nombre + "\n" +
+                "  Edad: " + edad + "\n" +
+                suFichaMedica.toString() +
+                "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
     }
 
     public double calcularPorcentajeSalud() {
