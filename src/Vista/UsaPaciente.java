@@ -4,6 +4,12 @@
  */
 package Vista;
 
+import Modelo.FichaMedica;
+import Modelo.Paciente;
+import Modelo.PacienteAfiliado;
+
+import javax.swing.*;
+
 /**
  *
  * @author LENOVO
@@ -384,11 +390,52 @@ public class UsaPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-        // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_salirActionPerformed
 
     private void ingresarPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarPacienteActionPerformed
-        // TODO add your handling code here:
+        String nombre = jTextField2.getText();
+        String tipoSangre = (String) jComboBox2.getSelectedItem();
+        int identificacion = 0;
+        double pesoKg = 0.0;
+        int frecuenciaCardiaca = 0;
+
+        try {
+            identificacion = Integer.parseInt(jTextField1.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
+            return;
+        }
+
+        try {
+            pesoKg = Double.parseDouble(jTextField3.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: El peso no es un número real. Intente de nuevo");
+        }
+
+        try {
+            frecuenciaCardiaca = Integer.parseInt(jTextField6.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: La frecuencia cardiaca no es un número entero. Intente de nuevo");
+        }
+
+        if (jComboBox1.getSelectedItem().equals("AFILIADO")) {
+            jTextField12.setEnabled(false);
+            try {
+                int numAfiliados = Integer.parseInt(jTextField11.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error: El número de afiliados no es un número entero. Intente de nuevo");
+            }
+        } else {
+            jTextField11.setEnabled(false);
+            try {
+                int edad = Integer.parseInt(jTextField12.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error: La edad no es un número entero. Intente de nuevo");
+            }
+        }
+
+
     }//GEN-LAST:event_ingresarPacienteActionPerformed
 
     private void ingresarServicioSaludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarServicioSaludActionPerformed

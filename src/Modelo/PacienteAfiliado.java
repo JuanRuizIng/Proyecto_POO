@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class PacienteAfiliado extends Paciente {
     private int numAfiliados;
 
-    public PacienteAfiliado(int id, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios, int numAfiliados) {
-        super(id, nombre, suFichaMedica, susServicios);
+    public PacienteAfiliado(int identificacion, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios, int numAfiliados) {
+        super(identificacion, nombre, suFichaMedica, susServicios);
         this.numAfiliados = numAfiliados;
     }
 
@@ -22,7 +22,7 @@ public class PacienteAfiliado extends Paciente {
     public String toString() {
         return "Modelo.PacienteAfiliado{" +
                 "numAfiliados=" + numAfiliados +
-                ", id=" + id +
+                ", id=" + identificacion +
                 ", nombre='" + nombre + '\'' +
                 ", suFichaMedica=" + suFichaMedica +
                 ", susServicios=" + susServicios +

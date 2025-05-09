@@ -3,20 +3,20 @@ package Modelo;
 import java.util.ArrayList;
 
 public abstract class Paciente {
-    protected int id;
+    protected int identificacion;
     protected String nombre;
     protected FichaMedica suFichaMedica;
     protected ArrayList<ServicioSalud> susServicios;
 
-    public Paciente(int id, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios) {
-        this.id = id;
+    public Paciente(int identificacion, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios) {
+        this.identificacion = identificacion;
         this.nombre = nombre;
         this.suFichaMedica = suFichaMedica;
         this.susServicios = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
+    public int getIdentificacion() {
+        return identificacion;
     }
 
     public FichaMedica getSuFichaMedica() {
@@ -38,7 +38,7 @@ public abstract class Paciente {
     @Override
     public String toString() {
         return "Modelo.Paciente{" +
-                "id=" + id +
+                "id=" + identificacion +
                 ", nombre='" + nombre + '\'' +
                 ", suFichaMedica=" + suFichaMedica +
                 ", susServicios=" + susServicios +
