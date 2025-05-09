@@ -45,4 +45,13 @@ public class ServicioSalud {
                 ", duracionMinutos=" + duracionMinutos +
                 '}';
     }
+
+    public String calcularAnticipacion() {
+        if (tipoServicio.equals("GENERAL") || tipoServicio.equals("LABORATORIO")) {
+            return "20 Minutos Antes";
+        } else {
+            return "40 Minutos Antes";
+        }
+    }
+
 }

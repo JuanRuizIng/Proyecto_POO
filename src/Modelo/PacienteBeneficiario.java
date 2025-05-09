@@ -27,4 +27,18 @@ public class PacienteBeneficiario extends Paciente {
                 ", susServicios=" + susServicios +
                 '}';
     }
+
+    public double calcularPorcentajeSalud() {
+        double porcentajeReduccionPorServicio;
+        if (edad > 30) {
+            porcentajeReduccionPorServicio = 3.0;
+        } else {
+            porcentajeReduccionPorServicio = 1.5;
+        }
+        double reduccionTotal = 0;
+        if (susServicios != null) {
+            reduccionTotal = susServicios.size() * porcentajeReduccionPorServicio;
+        }
+        return 100.0 - reduccionTotal;
+    }
 }

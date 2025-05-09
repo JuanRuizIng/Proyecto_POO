@@ -44,4 +44,12 @@ public abstract class Paciente {
                 ", susServicios=" + susServicios +
                 '}';
     }
+
+    public final String adicionarServicio(ServicioSalud nvoServicioS) {
+        susServicios.addFirst(nvoServicioS);
+        return nvoServicioS.calcularAnticipacion();
+    }
+
+    public abstract double calcularPorcentajeSalud();
+
 }

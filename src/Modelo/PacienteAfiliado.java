@@ -28,4 +28,18 @@ public class PacienteAfiliado extends Paciente {
                 ", susServicios=" + susServicios +
                 '}';
     }
+
+    public double calcularPorcentajeSalud() {
+        double porcentajeReduccionPorServicio;
+        if (suFichaMedica.getFrecuenciaCardiaca() < 11) {
+            porcentajeReduccionPorServicio = 4.0;
+        } else {
+            porcentajeReduccionPorServicio = 6.0;
+        }
+        double reduccionTotal = 0;
+        if (susServicios != null) {
+            reduccionTotal = susServicios.size() * porcentajeReduccionPorServicio;
+        }
+        return 100.0 - reduccionTotal;
+    }
 }
