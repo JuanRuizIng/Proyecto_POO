@@ -1,8 +1,12 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Paciente {
+public abstract class Paciente implements Serializable {
+
+    //private static final long serialVersionUID = 2L;
+
     protected int identificacion;
     protected String nombre;
     protected FichaMedica suFichaMedica;
@@ -12,7 +16,7 @@ public abstract class Paciente {
         this.identificacion = identificacion;
         this.nombre = nombre;
         this.suFichaMedica = suFichaMedica;
-        this.susServicios = new ArrayList<>();
+        this.susServicios = susServicios;
     }
 
     public int getIdentificacion() {
@@ -38,10 +42,10 @@ public abstract class Paciente {
     @Override
     public String toString() {
         return "Paciente\n" +
-                "  ID: " + identificacion + "\n" +
+                "  Identificacion: " + identificacion + "\n" +
                 "  Nombre: " + nombre + "\n" +
-                "  Ficha Medica: " + suFichaMedica.toString() + "\n" +
-                "  Sus Servicios de Salud Registrados: " + susServicios.toString() + "\n";
+                "  Su Ficha Médica: " + suFichaMedica + "\n" +
+                "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
     }
 
     public final String adicionarServicio(ServicioSalud nvoServicioS) {

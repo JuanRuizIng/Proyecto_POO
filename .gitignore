@@ -30,4 +30,6 @@ bin/
 
 .idea
 
+pacientes.obj
+
 *.iml

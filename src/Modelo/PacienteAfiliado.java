@@ -1,9 +1,11 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PacienteAfiliado extends Paciente {
+public class PacienteAfiliado extends Paciente implements Serializable {
     private int numAfiliados;
+    //private static final long serialVersionUID = 1L;
 
     public PacienteAfiliado(int identificacion, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios, int numAfiliados) {
         super(identificacion, nombre, suFichaMedica, susServicios);
@@ -20,11 +22,11 @@ public class PacienteAfiliado extends Paciente {
 
     @Override
     public String toString() {
-        return "Paciente Afiliado\n" +
-                "  ID: " + identificacion + "\n" +
+        return "Paciente Afiliado: \n" +
+                "  Identificacion: " + identificacion + "\n" +
                 "  Nombre: " + nombre + "\n" +
                 "  Número de Afiliados: " + numAfiliados + "\n" +
-                suFichaMedica.toString() +
+                suFichaMedica + "\n" +
                 "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
     }
 

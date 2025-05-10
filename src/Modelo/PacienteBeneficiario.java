@@ -1,12 +1,15 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PacienteBeneficiario extends Paciente {
+public class PacienteBeneficiario extends Paciente implements Serializable {
     private int edad;
+    //private static final long serialVersionUID = 1L;
 
     public PacienteBeneficiario(int identificacion, String nombre, FichaMedica suFichaMedica, ArrayList<ServicioSalud> susServicios, int edad) {
         super(identificacion, nombre, suFichaMedica, susServicios);
+        this.edad = edad;
     }
 
     public int getEdad() {
@@ -19,11 +22,11 @@ public class PacienteBeneficiario extends Paciente {
 
     @Override
     public String toString() {
-        return "Paciente Beneficiario\n" +
-                "  ID: " + identificacion + "\n" +
+        return "Paciente Beneficiario: \n" +
+                "  Identificacion: " + identificacion + "\n" +
                 "  Nombre: " + nombre + "\n" +
                 "  Edad: " + edad + "\n" +
-                suFichaMedica.toString() +
+                suFichaMedica  + "\n" +
                 "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
     }
 

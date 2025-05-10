@@ -7,6 +7,13 @@ package Vista;
 import Modelo.*;
 
 import javax.swing.*;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.FileNotFoundException;
+import java.io.NotSerializableException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -20,11 +27,93 @@ public class UsaPaciente extends javax.swing.JFrame {
 
     ArrayList<Paciente> losPacientes = new ArrayList<>();
 
+    private String nombreArchivo = "pacientes.obj";
+
+    private boolean conDatosPrueba = true;
+
+    public void OrdenarPacientePorId(ArrayList<Paciente> pacientes) {
+        procesador.ordenarPorId(pacientes);
+    }
+
+    public String listarTodosPacientes(ArrayList<Paciente> pacientes) {
+        return procesador.listarPacientes(pacientes);
+    }
+
+    public String listarUnAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
+        return procesador.listarAfiliado(pacientes, identificacionDada);
+    }
+
+    public void almacenarArchivoObjetos(ArrayList<Paciente> pacientes) {
+        ObjectOutputStream salida=null;
+        try {
+            salida = new ObjectOutputStream(
+                    new FileOutputStream( nombreArchivo ));
+            salida.writeObject(pacientes);
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado: " + e.getMessage());
+        } catch (NotSerializableException e) {
+            System.out.println("Objeto no serializable: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error de entrada/salida: " + e.getMessage());
+        } finally {
+            try {
+                if (salida != null) salida.close();
+            } catch (IOException e) {
+                System.out.println("Error cerrando el archivo");
+            }
+        }
+    }
+
+    public void recuperarArchivoObjetos(ArrayList<Paciente> pacientes) {
+        ArrayList<Paciente> pacientesRecuperados = null;
+        ObjectInputStream entrada = null;
+
+        try {
+            entrada = new ObjectInputStream(
+                    new FileInputStream( nombreArchivo ));
+            pacientesRecuperados = (ArrayList<Paciente>) entrada.readObject();
+
+            pacientes.clear();
+
+            pacientes.addAll(pacientesRecuperados);
+
+        } catch (NotSerializableException e) {
+            System.out.println("Objeto no serializable: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("Error de entrada/salida: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Clase no encontrada: " + e.getMessage());
+        } finally {
+            try {
+                if (entrada != null) entrada.close();
+            } catch (IOException e) {
+                System.out.println("Error cerrando el archivo");
+            }
+        }
+    }
+
+    public void llenarDatosPrueba(ArrayList<Paciente> losPacientes) {
+        losPacientes.addFirst(new PacienteBeneficiario(123456, "Juan Perez", new FichaMedica("O+", 70.0, 12), new ArrayList<>(), 25));
+        losPacientes.addFirst(new PacienteAfiliado(654321, "Maria Lopez", new FichaMedica("A-", 60.0, 10), new ArrayList<>(), 3));
+        losPacientes.addFirst(new PacienteBeneficiario(345678, "Carlos Garcia", new FichaMedica("B+", 80.0, 15), new ArrayList<>(), 35));
+        losPacientes.addFirst(new PacienteAfiliado(789012, "Ana Torres", new FichaMedica("O-", 55.0, 8), new ArrayList<>(), 2));
+        losPacientes.addFirst(new PacienteBeneficiario(267890, "Luis Martinez", new FichaMedica("O-", 75.0, 14), new ArrayList<>(), 40));
+        losPacientes.addFirst(new PacienteAfiliado(901234, "Sofia Ramirez", new FichaMedica("A+", 65.0, 11), new ArrayList<>(), 4));
+        losPacientes.addFirst(new PacienteBeneficiario(234567, "Pedro Sanchez", new FichaMedica("B-", 85.0, 9), new ArrayList<>(), 30));
+        losPacientes.addFirst(new PacienteAfiliado(890123, "Laura Gomez", new FichaMedica("O+", 72.0, 13), new ArrayList<>(), 5));
+    }
+
     /**
      * Creates new form UsaPaciente
      */
     public UsaPaciente() {
         initComponents();
+
+        if (conDatosPrueba){
+            llenarDatosPrueba(losPacientes);
+        }else{
+            JOptionPane.showMessageDialog(null,"No se usarán datos de prueba");
+        }
     }
 
     /**
@@ -418,12 +507,14 @@ public class UsaPaciente extends javax.swing.JFrame {
             suPesoKg = Double.parseDouble(jTextField3.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: El peso no es un número real. Intente de nuevo");
+            return;
         }
 
         try {
             suFrecuenciaCardiaca = Integer.parseInt(jTextField6.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: La frecuencia cardiaca no es un número entero. Intente de nuevo");
+            return;
         }
 
         FichaMedica suFicha = new FichaMedica(suTipoSangre, suPesoKg, suFrecuenciaCardiaca);
@@ -433,6 +524,7 @@ public class UsaPaciente extends javax.swing.JFrame {
                 suNumAfiliados = Integer.parseInt(jTextField11.getText());
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Error: El número de afiliados no es un número entero. Intente de nuevo");
+                return;
             }
             PacienteAfiliado nuevoPacienteAfiliado = new PacienteAfiliado(suIdentificacion, elNombre, suFicha, new ArrayList<>(), suNumAfiliados);
             losPacientes.add(nuevoPacienteAfiliado);
@@ -443,11 +535,14 @@ public class UsaPaciente extends javax.swing.JFrame {
                 laEdad = Integer.parseInt(jTextField12.getText());
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Error: La edad no es un número entero. Intente de nuevo");
+                return;
             }
             PacienteBeneficiario nuevoPacienteBeneficiario = new PacienteBeneficiario(suIdentificacion, elNombre, suFicha, new ArrayList<>(), laEdad);
             losPacientes.add(nuevoPacienteBeneficiario);
             JOptionPane.showMessageDialog(null, "Paciente Beneficiario registrado con éxito");
         }
+
+        almacenarArchivoObjetos(losPacientes);
 
 
     }//GEN-LAST:event_ingresarPacienteActionPerformed
@@ -461,6 +556,7 @@ public class UsaPaciente extends javax.swing.JFrame {
             laDuracion = Integer.parseInt(jTextField7.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: La duración no es un número entero. Intente de nuevo");
+            return;
         }
 
         try {
@@ -468,6 +564,7 @@ public class UsaPaciente extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: La fecha no es válida. " +
                     "Recuerde que el formato de fecha permitido es: YYYY-MM-DD. Intente de nuevo");
+            return;
         }
 
         try {
@@ -475,13 +572,17 @@ public class UsaPaciente extends javax.swing.JFrame {
             boolean encontrado = false;
             for (Paciente paciente : losPacientes) {
                 if (paciente.getIdentificacion() == idBuscado) {
-                    paciente.adicionarServicio(new ServicioSalud(elTipoServicio, laFecha, laDuracion));
+                    String anticipacion = paciente.adicionarServicio(new ServicioSalud(elTipoServicio, laFecha, laDuracion));
                     encontrado = true;
+                    JOptionPane.showMessageDialog(null, "Recuerde que debe llegar: " + anticipacion);
                     break;
                 }
             }
             if (encontrado == false) {
                 JOptionPane.showMessageDialog(null, "Paciente no encontrado. Intente de nuevo");
+            } else {
+                almacenarArchivoObjetos(losPacientes);
+                JOptionPane.showMessageDialog(null, "Servicio de salud añadido con éxito");
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
@@ -489,9 +590,8 @@ public class UsaPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_ingresarServicioSaludActionPerformed
 
     private void ejecutarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarReporteActionPerformed
-        String elTipoReporte = (String) jComboBox4.getSelectedItem();
-        jTextArea1.setText("");
-        if (elTipoReporte.equals("Listado de los pacientes registrados")) {
+        recuperarArchivoObjetos(losPacientes);
+        if (jComboBox4.getSelectedItem().equals("Listado de los pacientes registrados")) {
             OrdenarPacientePorId(losPacientes);
             jTextArea1.setText(listarTodosPacientes(losPacientes));
         } else {
@@ -508,18 +608,6 @@ public class UsaPaciente extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_ejecutarReporteActionPerformed
-
-    public void OrdenarPacientePorId(ArrayList<Paciente> pacientes) {
-        procesador.ordenarPorId(pacientes);
-    }
-
-    public String listarTodosPacientes(ArrayList<Paciente> pacientes) {
-        return procesador.listarPacientes(pacientes);
-    }
-
-    public String listarUnAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
-        return procesador.listarAfiliado(pacientes, identificacionDada);
-    }
 
     /**
      * @param args the command line arguments

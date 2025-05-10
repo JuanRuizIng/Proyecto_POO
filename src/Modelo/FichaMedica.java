@@ -1,6 +1,8 @@
 package Modelo;
 
-public class FichaMedica {
+import java.io.Serializable;
+
+public class FichaMedica implements Serializable {
     private String tipoSangre;
     private double pesoKg;
     private int frecuenciaCardiaca;
@@ -37,7 +39,8 @@ public class FichaMedica {
 
     @Override
     public String toString() {
-        return "Ficha Médica:\n" +
+        return "\n" +
+                " Ficha Médica: \n" +
                 "  Tipo de Sangre: " + tipoSangre + "\n" +
                 "  Peso (en kg): " + pesoKg + "\n" +
                 "  Frecuencia Cardiaca: " + frecuenciaCardiaca + "\n";

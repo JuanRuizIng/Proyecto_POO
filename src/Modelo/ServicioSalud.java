@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class ServicioSalud {
+public class ServicioSalud implements Serializable {
     private String tipoServicio;
     private LocalDate fecha;
     private int duracionMinutos;
@@ -39,10 +40,11 @@ public class ServicioSalud {
 
     @Override
     public String toString() {
-        return "Servicio de Salud:\n" +
+        return "\n" +
                 "  Tipo de Servicio: " + tipoServicio + "\n" +
                 "  Fecha: " + fecha + "\n" +
-                "  Duración (en minutos): " + duracionMinutos + "\n";
+                "  Duración (en minutos): " + duracionMinutos + "\n"
+                + "\n";
     }
 
     public String calcularAnticipacion() {
