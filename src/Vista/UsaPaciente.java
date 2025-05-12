@@ -16,14 +16,14 @@ import java.io.NotSerializableException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
  * @author LENOVO
  */
-public class UsaPaciente extends javax.swing.JFrame {
-
-    private ProcesaPacienteImpl procesador = new ProcesaPacienteImpl();
+public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
 
     ArrayList<Paciente> losPacientes = new ArrayList<>();
 
@@ -31,16 +31,34 @@ public class UsaPaciente extends javax.swing.JFrame {
 
     private boolean conDatosPrueba = true;
 
-    public void OrdenarPacientePorId(ArrayList<Paciente> pacientes) {
-        procesador.ordenarPorId(pacientes);
+    @Override
+    public void ordenarPorId(ArrayList<Paciente> pacientes) {
+        Collections.sort(pacientes, Comparator.comparingInt(Paciente::getIdentificacion));
     }
 
-    public String listarTodosPacientes(ArrayList<Paciente> pacientes) {
-        return procesador.listarPacientes(pacientes);
+    public String listarPacientes(ArrayList<Paciente> pacientes) {
+        String res = "";
+        for (Paciente paciente : pacientes) {
+            res += paciente.toString() + "\n";
+        }
+        return res;
     }
 
-    public String listarUnAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
-        return procesador.listarAfiliado(pacientes, identificacionDada);
+    public String listarAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
+        try {
+            identificacionDada = Integer.parseInt(jTextField4.getText());
+            for (Paciente paciente : pacientes) {
+                if (paciente.getIdentificacion() == identificacionDada) {
+                    return paciente.toString();
+                }
+            }
+            String res = "No se encontró el paciente con la identificación dada";
+            JOptionPane.showMessageDialog(null, res);
+            return res;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: La identificación no es un número entero. Intente de nuevo");
+            return "";
+        }
     }
 
     public void almacenarArchivoObjetos(ArrayList<Paciente> pacientes) {
@@ -49,10 +67,6 @@ public class UsaPaciente extends javax.swing.JFrame {
             salida = new ObjectOutputStream(
                     new FileOutputStream( nombreArchivo ));
             salida.writeObject(pacientes);
-        } catch (FileNotFoundException e) {
-            System.out.println("Archivo no encontrado: " + e.getMessage());
-        } catch (NotSerializableException e) {
-            System.out.println("Objeto no serializable: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Error de entrada/salida: " + e.getMessage());
         } finally {
@@ -77,8 +91,6 @@ public class UsaPaciente extends javax.swing.JFrame {
 
             pacientes.addAll(pacientesRecuperados);
 
-        } catch (NotSerializableException e) {
-            System.out.println("Objeto no serializable: " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Error de entrada/salida: " + e.getMessage());
         } catch (ClassNotFoundException e) {
@@ -593,12 +605,12 @@ public class UsaPaciente extends javax.swing.JFrame {
     private void ejecutarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ejecutarReporteActionPerformed
         recuperarArchivoObjetos(losPacientes);
         if (jComboBox4.getSelectedItem().equals("Listado de los pacientes registrados")) {
-            OrdenarPacientePorId(losPacientes);
-            jTextArea1.setText(listarTodosPacientes(losPacientes));
+            ordenarPorId(losPacientes);
+            jTextArea1.setText(listarPacientes(losPacientes));
         } else {
             try {
                 int idBuscado = Integer.parseInt(jTextField4.getText());
-                String afiliado = listarUnAfiliado(losPacientes, idBuscado);
+                String afiliado = listarAfiliado(losPacientes, idBuscado);
                 if (afiliado.equals("Paciente no encontrado.")) {
                     JOptionPane.showMessageDialog(null, "Paciente no encontrado. Intente de nuevo");
                 } else {
