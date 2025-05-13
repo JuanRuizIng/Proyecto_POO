@@ -33,7 +33,12 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
 
     @Override
     public void ordenarPorId(ArrayList<Paciente> pacientes) {
-        Collections.sort(pacientes, Comparator.comparingInt(Paciente::getIdentificacion));
+        pacientes.sort(new Comparator<Paciente>() {
+            @Override
+            public int compare(Paciente p1, Paciente p2) {
+                return Integer.compare(p1.getIdentificacion(), p2.getIdentificacion());
+            }
+        });
     }
 
     public String listarPacientes(ArrayList<Paciente> pacientes) {
