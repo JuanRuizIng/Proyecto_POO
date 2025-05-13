@@ -44,7 +44,20 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
     public String listarPacientes(ArrayList<Paciente> pacientes) {
         String res = "";
         for (Paciente paciente : pacientes) {
-            res += paciente.toString() + "\n";
+            String tipo;
+            if (paciente instanceof PacienteAfiliado) {
+                tipo = "AFILIADO";
+            } else {
+                tipo = "BENEFICIARIO";
+            }
+            String grupoSanguineo = paciente.getSuFichaMedica().getTipoSangre();
+            double porcentajeSalud = paciente.calcularPorcentajeSalud();
+            res += "Identificación: " + paciente.getIdentificacion()
+                    + ", Nombre: " + paciente.getNombre()
+                    + ", Tipo: " + tipo
+                    + ", Grupo Sanguíneo: " + grupoSanguineo
+                    + ", Porcentaje de Salud: " + porcentajeSalud + "%"
+                    + "\n";
         }
         return res;
     }
@@ -54,7 +67,14 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
             identificacionDada = Integer.parseInt(jTextField4.getText());
             for (Paciente paciente : pacientes) {
                 if (paciente.getIdentificacion() == identificacionDada) {
-                    return paciente.toString();
+                    String res = "";
+                    res += paciente.toString();
+                    res += "\n";
+                    res += "Servicios de Salud: \n";
+                    for (ServicioSalud servicio : paciente.getSusServicios()) {
+                        res += servicio.toString();
+                    }
+                    return res;
                 }
             }
             String res = "No se encontró el paciente con la identificación dada";

@@ -23,11 +23,12 @@ public class PacienteBeneficiario extends Paciente implements Serializable {
     @Override
     public String toString() {
         return "Paciente Beneficiario: \n" +
-                "  Identificacion: " + identificacion + "\n" +
-                "  Nombre: " + nombre + "\n" +
-                "  Edad: " + edad + "\n" +
-                suFichaMedica  + "\n" +
-                "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
+                "Identificacion: " + identificacion +
+                ", Nombre: " + nombre +
+                ", Edad: " + edad +
+                ", Tipo de Sangre: " + suFichaMedica.getTipoSangre() +
+                ", Peso (Kg) :" + suFichaMedica.getPesoKg() +
+                ", Frecuencia Cardiaca: " + suFichaMedica.getFrecuenciaCardiaca();
     }
 
     public double calcularPorcentajeSalud() {

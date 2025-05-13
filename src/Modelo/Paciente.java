@@ -39,6 +39,14 @@ public abstract class Paciente implements Serializable {
         this.nombre = nombre;
     }
 
+    public ArrayList<ServicioSalud> getSusServicios() {
+        return susServicios;
+    }
+
+    public void setSusServicios(ArrayList<ServicioSalud> susServicios) {
+        this.susServicios = susServicios;
+    }
+
     @Override
     public String toString() {
         return "Paciente\n" +

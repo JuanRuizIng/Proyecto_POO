@@ -23,11 +23,12 @@ public class PacienteAfiliado extends Paciente implements Serializable {
     @Override
     public String toString() {
         return "Paciente Afiliado: \n" +
-                "  Identificacion: " + identificacion + "\n" +
-                "  Nombre: " + nombre + "\n" +
-                "  Número de Afiliados: " + numAfiliados + "\n" +
-                suFichaMedica + "\n" +
-                "  Sus Servicios de Salud Registrados: " + susServicios + "\n";
+                "Identificacion: " + identificacion +
+                ", Nombre: " + nombre +
+                ", Número de Afiliados: " + numAfiliados +
+                ", Tipo de Sangre: " + suFichaMedica.getTipoSangre() +
+                ", Peso (Kg): " + suFichaMedica.getPesoKg() +
+                ", Frecuencia Cardiaca: " + suFichaMedica.getFrecuenciaCardiaca();
     }
 
 

@@ -40,11 +40,10 @@ public class ServicioSalud implements Serializable {
 
     @Override
     public String toString() {
-        return "\n" +
-                "  Tipo de Servicio: " + tipoServicio + "\n" +
-                "  Fecha: " + fecha + "\n" +
-                "  Duración (en minutos): " + duracionMinutos + "\n"
-                + "\n";
+        return "Tipo de Servicio: " + tipoServicio +
+                ", Fecha: " + fecha +
+                ", Duración (en minutos): " + duracionMinutos +
+                "\n";
     }
 
     public String calcularAnticipacion() {
