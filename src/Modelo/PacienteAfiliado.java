@@ -34,7 +34,7 @@ public class PacienteAfiliado extends Paciente implements Serializable {
 
     public double calcularPorcentajeSalud() {
         double porcentajeReduccionPorServicio;
-        if (suFichaMedica.getFrecuenciaCardiaca() < 11) {
+        if (suFichaMedica.getFrecuenciaCardiaca() < 110) {
             porcentajeReduccionPorServicio = 4.0;
         } else {
             porcentajeReduccionPorServicio = 6.0;
