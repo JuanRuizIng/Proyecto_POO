@@ -41,6 +41,7 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
         });
     }
 
+    @Override
     public String listarPacientes(ArrayList<Paciente> pacientes) {
         String res = "";
         for (Paciente paciente : pacientes) {
@@ -62,6 +63,7 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
         return res;
     }
 
+    @Override
     public String listarAfiliado(ArrayList<Paciente> pacientes, int identificacionDada) {
         try {
             identificacionDada = Integer.parseInt(jTextField4.getText());
@@ -86,6 +88,7 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
         }
     }
 
+    @Override
     public void almacenarArchivoObjetos(ArrayList<Paciente> pacientes) {
         ObjectOutputStream salida=null;
         try {
@@ -103,6 +106,7 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
         }
     }
 
+    @Override
     public void recuperarArchivoObjetos(ArrayList<Paciente> pacientes) {
         ArrayList<Paciente> pacientesRecuperados = null;
         ObjectInputStream entrada = null;

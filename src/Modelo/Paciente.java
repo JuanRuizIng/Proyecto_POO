@@ -23,6 +23,10 @@ public abstract class Paciente implements Serializable {
         return identificacion;
     }
 
+    public void setIdentificacion(int identificacion) {
+        this.identificacion = identificacion;
+    }
+
     public FichaMedica getSuFichaMedica() {
         return suFichaMedica;
     }

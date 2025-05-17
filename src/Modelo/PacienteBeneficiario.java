@@ -31,6 +31,7 @@ public class PacienteBeneficiario extends Paciente implements Serializable {
                 ", Frecuencia Cardiaca: " + suFichaMedica.getFrecuenciaCardiaca();
     }
 
+    @Override
     public double calcularPorcentajeSalud() {
         double porcentajeReduccionPorServicio;
         if (edad > 30) {
