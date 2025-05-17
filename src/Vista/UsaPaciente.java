@@ -134,13 +134,25 @@ public class UsaPaciente extends javax.swing.JFrame implements ProcesaPaciente {
     }
 
     public void llenarDatosPrueba(ArrayList<Paciente> losPacientes) {
-        losPacientes.addFirst(new PacienteBeneficiario(123456, "Juan Perez", new FichaMedica("O+", 70.0, 12), new ArrayList<>(), 25));
-        losPacientes.addFirst(new PacienteAfiliado(654321, "Maria Lopez", new FichaMedica("A-", 60.0, 10), new ArrayList<>(), 3));
+        ArrayList<ServicioSalud> servicios1 = new ArrayList<>();
+        servicios1.add(new ServicioSalud("GENERAL", LocalDate.parse("2024-06-01"), 30));
+        servicios1.add(new ServicioSalud("LABORATORIO", LocalDate.parse("2024-06-05"), 20));
+
+        ArrayList<ServicioSalud> servicios2 = new ArrayList<>();
+        servicios2.add(new ServicioSalud("MEDICAMENTO", LocalDate.parse("2024-06-02"), 10));
+
+        ArrayList<ServicioSalud> servicios3 = new ArrayList<>();
+        servicios3.add(new ServicioSalud("GENERAL", LocalDate.parse("2024-06-03"), 25));
+        servicios3.add(new ServicioSalud("LABORATORIO", LocalDate.parse("2024-06-06"), 15));
+        servicios3.add(new ServicioSalud("MEDICAMENTO", LocalDate.parse("2024-06-07"), 5));
+
+        losPacientes.addFirst(new PacienteBeneficiario(123456, "Juan Perez", new FichaMedica("O+", 70.0, 12), servicios1, 25));
+        losPacientes.addFirst(new PacienteAfiliado(654321, "Maria Lopez", new FichaMedica("A-", 60.0, 10), servicios2, 3));
         losPacientes.addFirst(new PacienteBeneficiario(345678, "Carlos Garcia", new FichaMedica("B+", 80.0, 15), new ArrayList<>(), 35));
-        losPacientes.addFirst(new PacienteAfiliado(789012, "Ana Torres", new FichaMedica("O-", 55.0, 8), new ArrayList<>(), 2));
+        losPacientes.addFirst(new PacienteAfiliado(789012, "Ana Torres", new FichaMedica("O-", 55.0, 8), servicios3, 2));
         losPacientes.addFirst(new PacienteBeneficiario(267890, "Luis Martinez", new FichaMedica("O-", 75.0, 14), new ArrayList<>(), 40));
-        losPacientes.addFirst(new PacienteAfiliado(901234, "Sofia Ramirez", new FichaMedica("A+", 65.0, 11), new ArrayList<>(), 4));
-        losPacientes.addFirst(new PacienteBeneficiario(234567, "Pedro Sanchez", new FichaMedica("B-", 85.0, 9), new ArrayList<>(), 30));
+        losPacientes.addFirst(new PacienteAfiliado(901234, "Sofia Ramirez", new FichaMedica("A+", 65.0, 11), servicios1, 4));
+        losPacientes.addFirst(new PacienteBeneficiario(234567, "Pedro Sanchez", new FichaMedica("B-", 85.0, 9), servicios2, 30));
         losPacientes.addFirst(new PacienteAfiliado(890123, "Laura Gomez", new FichaMedica("O+", 72.0, 13), new ArrayList<>(), 5));
     }
 
